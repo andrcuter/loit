@@ -74,9 +74,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-  
-
-        possible_words = filter_words(possible_words, guess, exact, wrong_place)
-
-if __name__ == "__main__":
-    main()
