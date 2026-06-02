@@ -86,3 +86,28 @@ def filter_words(words, guess, exact, wrong_place):
         if current_exact == exact and current_wrong_place == wrong_place:  
             filtered.append(word)  
     return filtered 
+
+def main():
+    print("Игра где Компьютер угадывает ваше 5-буквенное слово.")
+    possible_words = [w.lower() for w in INITIAL_WORDS if len(w) == 5]
+    secret_word = input("Введите загаданное слово: ").strip().lower()
+    while len(secret_word) != 5:
+        secret_word = input("Слово должно быть из 5 букв!: ").strip().lower()
+    attempts = 0
+    while True:
+        if not possible_words: break
+        frequencies = calculate_letter_frequencies(possible_words)
+        guess = max(possible_words, key=lambda w: score_word(w, frequencies))
+        attempts += 1
+        print(f"Попытка {attempts}: {guess.upper()}")
+        if guess == secret_word: break
+        try:
+            exact = int(input("На своих местах? "))
+            wrong_place = int(input("Не на своих местах? "))
+        except ValueError:
+            attempts -= 1; continue
+        possible_words = [w for w in possible_words if w != guess]
+        possible_words = filter_words(possible_words, guess, exact, wrong_place)
+
+if __name__ == "__main__":
+    main()
