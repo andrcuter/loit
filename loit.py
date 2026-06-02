@@ -74,3 +74,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+  
+def filter_words(words, guess, exact, wrong_place):  
+    filtered = []  
+    for word in words:  
+        current_exact = sum(1 for w, g in zip(word, guess) if w == g)  
+        word_counts = collections.Counter(word)  
+        guess_counts = collections.Counter(guess)  
+        total_matches = sum((word_counts & guess_counts).values())  
+        current_wrong_place = total_matches - current_exact  
+        if current_exact == exact and current_wrong_place == wrong_place:  
+            filtered.append(word)  
+    return filtered 
